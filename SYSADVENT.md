@@ -8,7 +8,7 @@ Fleet, Kubernetes, Mesos, Nomad, Rancher, and Swarm. These are probably some nam
 * Scale up/down functionality. Scale a service is as simple as updating an instance count in the cluster scheduler.
 * System that can be queried to know where services are running and the state of those services. This can be used to configure load balancers and other services.
 
-So we see some benefits of having a cluster scheduler to handle the deployment, description, health, and scaling of our containerized services, but to run some of these schedulers requires a long list of dependencies. Enter Hashicorp's Nomad, from the team that brought you [Atlas](https://atlas.hashicorp.com/), [Consul](https://www.consul.io/), [Vagrant](https://www.vagrantup.com/), [Packer](https://www.packer.io/), [Serf](https://serfdom.io/), [Terraform](https://terraform.io/), [Vault](https://www.vaultproject.io/), and recently [Otto](https://ottoproject.io/).
+So we see some benefits of having a cluster scheduler to handle the deployment, description, health, and scaling of our containerized services, but to run some of these schedulers requires a long list of dependencies. Enter Hashicorp's Nomad, from the team that brought you [Atlas](https://atlas.hashicorp.com/), [Consul](https://www.consul.io/), [Vagrant](https://www.vagrantup.com/), [Packer](https://www.packer.io/), [Serf](https://serfdom.io/), [Terraform](https://terraform.io/), [Vault](https://www.vaultproject.io/), and recently [Otto](https://ottoproject.io/). Nomad is a go binary making it simple to deploy and get started with, without bringing understanding of other systems into the mix.
 
- ### Introduction
- ###
+## Understanding Nomad
+Nomad is built to be operationally simple. Let's spin up a local nomad cluster and dive in.
