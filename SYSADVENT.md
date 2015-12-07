@@ -39,7 +39,7 @@ steps here
 
 Nomad will recieve the job definition and act on that request by scheduling the tasks on the [agent nodes](#agents).
 
-### <a name="agents"></a> Nomad Agent
+### <a name="agents"></a>Nomad agent
 Nomad agents will receive requests for tasks from the Nomad server and if possible, act on those requests. In our example above, we asked Nomad to find matches 50 instances of microbot tasks which in this example are webservers running in a docker container as defined by the job definition above. We will ask Nomad to allocate ports for the containers we launch and monitor the health of those services to act on them should the health check ever fail.
 
 ### Consul
@@ -55,23 +55,18 @@ Now that we've covered Nomad server, Nomad agent, and how we can leverage Consul
 * Query consul for all running instances of our updated and scaled microbot service.
 
 ## Spin down and clean up
-When you're done, you can shut down the cluster using
+
 
 ```
+# When you're done, you can shut down the cluster using
 $ vagrant halt
-```
 
-And free up some disk space using
-
-```
+# And free up some disk space using
 $ vagrant destroy -f
-```
 
-If you want to change any of the configuration/scripts run
-
-```
+#If you want to change any of the configuration/scripts run
 $ vagrant provision
 ```
 
 ## Conclusion
-In conclusion, there are numerous options for container cluster schedulers, Nomad's angle seems an operationally simple solution with less infrastructure needs. We've learned how we can leverage Nomad to distribute a task around multiple hosts, scale those tasks, and deploy updates with ease while letting the cluster scheduler handle the placement, supervision and rolling updates of our service.
+In conclusion, there are numerous options for container cluster schedulers. Nomad's angle seems to be an operationally simple solution with less infrastructure needs. We've learned how we can leverage Nomad to distribute a task around multiple hosts, scale those tasks, and deploy updates with ease while letting the cluster scheduler handle the placement, supervision and rolling updates of our service.
