@@ -12,3 +12,33 @@ So we see some benefits of having a cluster scheduler to handle the deployment, 
 
 ## Understanding Nomad
 Nomad is built to be operationally simple. Let's spin up a local nomad cluster and dive in.
+
+Spin up local cluster
+Walk through Nomad server
+* what is does
+* how it does that (high level)
+* how you interact with it
+
+Nomad agent
+* what it does
+* how nomad server interacts with it
+
+Consul
+* what is does
+* how nomad interacts with it
+
+Service discovery?
+
+Sample:
+* deploy
+* system job
+* Scale
+* discover
+
+Spin down and clean up
+
+Conclude:
+Nomad cluster scheduler, joined with consul
+* small dependencies
+* lots of functionality
+* service discovery
