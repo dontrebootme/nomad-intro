@@ -1,1 +1,10 @@
-.vagrant/
+/.vagrant
+/consul/consul
+/consul/dist
+/consul/static
+/consul/*.zip
+/consul/hostess_linux_amd64
+/consul/index.html
+/nomad/nomad
+/nomad/*.zip
+/nomad/hostess_linux_amd64

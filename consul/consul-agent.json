@@ -1,10 +1,10 @@
 {
+    "advertise_addr": "ADDR",
     "client_addr": "0.0.0.0",
     "data_dir": "/var/lib/consul",
     "datacenter": "nomad-intro",
+    "enable_syslog": true,
     "log_level": "INFO",
-    "server": false,
     "ui_dir": "/opt/consul-ui",
-    "encrypt": "gQeIMNM+bH2q5tTNiVRoJg==",
-    "start_join": ["172.20.20.10"]
+    "encrypt": "KnqifJT6qkF0X+Zx9spnjg=="
 }
