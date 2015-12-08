@@ -1,7 +1,7 @@
 #!/bin/bash
 # Update apt and get dependencies
-sudo apt-get update
-sudo apt-get install -y unzip curl wget vim
+sudo apt-get update 2>&1 > /dev/null
+sudo apt-get install -y unzip curl wget vim 2>&1 > /dev/null
 
 # Download Nomad
 echo Fetching Nomad...

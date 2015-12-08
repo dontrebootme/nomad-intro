@@ -1,0 +1,10 @@
+{
+    "client_addr": "0.0.0.0",
+    "data_dir": "/var/lib/consul",
+    "datacenter": "nomad-intro",
+    "log_level": "INFO",
+    "server": false,
+    "ui_dir": "/opt/consul-ui",
+    "encrypt": "gQeIMNM+bH2q5tTNiVRoJg==",
+    "start_join": ["172.20.20.10"]
+}

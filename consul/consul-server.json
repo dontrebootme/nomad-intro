@@ -1,0 +1,11 @@
+{
+    "bootstrap": true,
+    "advertise_addr": "172.20.20.10",
+    "client_addr": "0.0.0.0",
+    "data_dir": "/var/lib/consul",
+    "datacenter": "nomad-intro",
+    "log_level": "INFO",
+    "server": true,
+    "ui_dir": "/opt/consul-ui",
+    "encrypt": "gQeIMNM+bH2q5tTNiVRoJg=="
+}
