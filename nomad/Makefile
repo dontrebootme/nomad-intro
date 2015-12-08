@@ -23,14 +23,18 @@ install:
 	# Add nomad configuration
 	mkdir -p /etc/nomad
 
-	# Setup consul service and start it
+install-server:
+	cd /vagrant/nomad
+	sed 's/ADDR/'`cat /tmp/self.ip`'/g' /vagrant/nomad/nomad-server.json > /etc/nomad/nomad.json # we also change bind addr due to https://github.com/hashicorp/nomad/issues/186
+	# Setup nomad service and start it
 	cp /vagrant/nomad/nomad.upstart.conf /etc/init/nomad.conf
 	restart nomad || start nomad
 	sleep 1
 
-install-server:
-	echo "Nomad Server"
-
-install-agent:
-	echo "Nomad Agent"
-
+install-client:
+	cd /vagrant/nomad
+	sed 's/ADDR/'`cat /tmp/self.ip`'/g' /vagrant/nomad/nomad-client.json > /etc/nomad/nomad.json
+	# Setup nomad service and start it
+	cp /vagrant/nomad/nomad.upstart.conf /etc/init/nomad.conf
+	restart nomad || start nomad
+	sleep 1

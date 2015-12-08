@@ -1,0 +1,17 @@
+{
+  "advertise_addr": "ADDR",
+  "bind_addr": "0.0.0.0",
+  "advertise": {
+    "rpc": "10.7.0.10:4647",
+    "serf": "10.7.0.10:4648"
+  },
+  "data_dir": "/var/lib/nomad",
+  "datacenter": "nomad-intro",
+  "enable_syslog": true,
+  "syslog_facility": "LOCAL0",
+  "log_level": "INFO",
+  "server": {
+    "bootstrap_expect": 1,
+    "enabled": true
+  }
+}

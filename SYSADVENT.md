@@ -12,7 +12,7 @@ Fleet, Kubernetes, Mesos, Nomad, Rancher, and Swarm are probably some names you'
 Running a scheduler has obvious benefits over running containers by hand, but to run some of these schedulers requires a long list of dependencies that are not trivial to set up and maintain. Enter Hashicorp's Nomad, from the team that brought you [Consul](https://www.consul.io/), [Vagrant](https://www.vagrantup.com/), [Packer](https://www.packer.io/), [Terraform](https://terraform.io/), [Vault](https://www.vaultproject.io/), and recently [Otto](https://ottoproject.io/). Nomad attempts to give you all of the container scheduler benefits without any of the complexity. It is a single binary (and optional config file) making it simple to deploy and get started. You don't need to make any changes to your existing containers and can get started with just a few commands.
 
 ## Understanding Nomad
-Nomad is built to be operationally simple. So simple in fact that we can easily create an example cluster to play with on your local machine. 
+Nomad is built to be operationally simple. So simple in fact that we can easily create an example cluster to play with on your local machine.
 
 ### Spin up local cluster
 We are going to leverage Vagrant to automatically provision multiple machines that we can use to demonstrate container scheduling with nomad. These machines will be:
@@ -28,17 +28,30 @@ cd nomad-intro
 vagrant up
 ```
 
-This process starts and configures a nomad host using `nomad/install.sh`, a consul host using `consul/install.sh` and three docker hosts using `docker/install.sh`
+This process starts and configures a consul server, nomad server, and some docker hosts running nomad and consul agent. Run `vagrant status` to confirm all instances are running:
+
+```
+➜  nomad-intro (master) ✗ vagrant status
+Current machine states:
+
+consul                    running (virtualbox)
+nomad                     running (virtualbox)
+docker1                   running (virtualbox)
+docker2                   running (virtualbox)
+docker3                   running (virtualbox)
+```
 
 ### Nomad server
 Nomad running in server mode acts as the manager for the agents and applications in your cluster. A normal production cluster would have multiple nomad servers. We describe how we want Nomad to run our applications by defining jobs. I've included a sample job with a task that launches a web server in the [nomad-intro](https://github.com/dontrebootme/nomad-intro) repository. The `.nomad` file defines a job, task group, and task. A job file will only ever describe a single job, but can have multiple tasks. Additional definitions in the job definition include data such as datacenter, region, instance count, update policy, resources allocated, networking speed, port allocations, and health checks.
 
-To demonstrate how we schedule a job with nomad, send the provided job definition to your server via:
+To demonstrate how we schedule a job with nomad, take a look at the provided `microbot.nomad` file. You can run the microbot service on your nomad cluster by issuing:
+
 ```
-steps here
+vagrant ssh nomad
+nomad run /vagrant/microbot.nomad
 ```
 
-Nomad will recieve the job definition and act on that request by scheduling the tasks on the [agent nodes](#agents).
+Nomad will recieve the job definition and act on that request by scheduling the tasks on the [agent nodes](#agents). You can view the status of the job using `nomad status microbot-service`.
 
 ### <a name="agents"></a>Nomad agent
 Nomad running in agent mode will receive requests for tasks from the server and, if possible, act on those requests. In the example above we asked nomad to start 50 instances of the microbot tasks which in this example are webservers running in a docker container as defined by the job definition. We asked nomad to allocate ports for the containers we launched and monitor the health of those services to act on them should the health check ever fail.

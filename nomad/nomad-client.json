@@ -1,0 +1,13 @@
+{
+  "advertise_addr": "ADDR",
+  "bind_addr": "0.0.0.0",
+  "data_dir": "/var/lib/nomad",
+  "datacenter": "nomad-intro",
+  "enable_syslog": true,
+  "syslog_facility": "LOCAL0",
+  "log_level": "INFO",
+  "client": {
+    "enabled": true,
+    "servers": [ "10.7.0.10:4647" ]
+  }
+}

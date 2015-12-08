@@ -39,9 +39,9 @@ install-server:
 	restart consul || start consul
 	sleep 1
 
-install-agent:
+install-client:
 	cd /vagrant/consul
-	sed 's/ADDR/'`cat /tmp/self.ip`'/g' /vagrant/consul/consul-agent.json > /etc/consul/consul.json
+	sed 's/ADDR/'`cat /tmp/self.ip`'/g' /vagrant/consul/consul-client.json > /etc/consul/consul.json
 
 	# Setup consul service and start it
 	cp /vagrant/consul/consul.upstart.conf /etc/init/consul.conf
