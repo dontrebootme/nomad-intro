@@ -6,15 +6,16 @@ job "cadvisor" {
   type = "system"
 
   group "infra" {
-    count = 1
-
     task "cadvisor" {
       driver = "docker"
       config {
         image = "google/cadvisor"
+        port_map {
+          cadvisor = 8080
+        }
       }
       service {
-        port = "http"
+        port = "cadvisor"
         check {
           type = "http"
           path = "/"
@@ -30,7 +31,7 @@ job "cadvisor" {
         memory = 32
         network {
           mbits = 100
-          port "http" {
+          port "cadvisor" {
           }
         }
       }

@@ -140,6 +140,7 @@ curl http://10.7.0.15:8500/v1/catalog/service/microbot-web-microbot
 ```
 
 Or we can visit the web UI by browsing to http://10.7.0.15:8500/ui/
+![consul](consul.png)
 
 ## Spin down and clean up
 

@@ -17,6 +17,9 @@ job "microbot" {
       driver = "docker"
       config {
         image = "dontrebootme/microbot:v1"
+        port_map {
+          http = 80
+        }
       }
       service {
         port = "http"
@@ -35,8 +38,7 @@ job "microbot" {
         memory = 32
         network {
           mbits = 100
-          port "http" {
-          }
+          port "http" {}
         }
       }
     }
