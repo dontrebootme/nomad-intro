@@ -102,7 +102,7 @@ update {
 
 `stagger` defines the time between new container deployments and `max_parallel` sets how many containers can be stopped and started in parallel.
 
-We can push a new version of our container out by changing the version of our microbot container from `v1` to `v2` in the `microbot.nomad` file.
+We can push a new version of our container out by changing the version of our microbot container imagine from `v1` to `v2` in the `microbot.nomad` file.
 
 ```
 task "microbot" {
@@ -115,17 +115,10 @@ task "microbot" {
 ```
 Once you push the new application with `nomad run /vagrant/microbot.nomad` the containers will be updated, 5 at a time with 10 seconds between each batch.
 
-By querying consul, we can find our running container information such as host and port. See the [Query Consul](#query) section below.
-
-Running microbot:v1
-![microbot:v1](img/microbotv1.png)
-Running microbot:v2
-![microbot:v2](img/microbotv2.png)
-
 More information about updates are available via the [Nomad documentation](https://nomadproject.io/docs/jobspec/#update)
 
 #### <a name="system"></a>System Jobs
-Nomad has three types of jobs: service, batch, and system. Our previous example used a `service` job which is intended for long running tasks. Let's schedule a new job of `type = "system"`. If you take a look at `cadvisor.nomad`, you'll see an example of a system job. System jobs are great for deploying services/tools that you expect to be on every host. You would usually use this type of job for logging, monitoring, and possibly a local docker registry. In this example we'll use the metrics service [cAdvisor](https://github.com/google/cadvisor). Let's deploy this on every Nomad client/Docker host by issuing our `nomad run` with this new job definition:
+Nomad has three types of jobs: [service, batch, and system](https://www.nomadproject.io/docs/jobspec/schedulers.html). Our previous example used a `service` job which is intended for long running tasks. Let's schedule a new job of `type = "system"`. If you take a look at `cadvisor.nomad`, you'll see an example of a system job. System jobs are great for deploying services/tools that you expect to be on every host. You would usually use this type of job for logging, monitoring, and possibly a local docker registry. In this example we'll use the metrics service [cAdvisor](https://github.com/google/cadvisor). Let's deploy this on every Nomad client/Docker host by issuing our `nomad run` with this new job definition:
 ```
 vagrant ssh nomad
 nomad run /vagrant/cadvisor.nomad
@@ -139,7 +132,7 @@ nomad status cadvisor
 The cadvisor job should be scheduled, one per host, on your cluster.
 
 #### <a name="query"></a>Query Consul
-One of the features of Nomad is that is had native integration with Consul. We've covered the relationship of Nomad and Consul above, but we can take a look at Consul and verify that it is indeed receiving all the information about our services by using Consul data in two ways, via an API call, or via the web UI.
+One of the features of Nomad is that it has native integration with Consul. We've covered the relationship of Nomad and Consul above, but we can take a look at Consul and verify that it is indeed receiving all the information about our services by using Consul data in two ways, via an API call, or via the web UI.
 
 To ask Consul for all running services in our cluster:
 ```
@@ -167,4 +160,4 @@ vagrant provision
 ```
 
 ## Conclusion
-There are numerous options for container cluster schedulers and the list isn't getting shorter. Nomad's approach to keep things operationally simple with less infrastructure needs is a releif when some schedulers seem overly complex. This model allows for fast automation and lean system requirements. We've learned how we can leverage Nomad to distribute a task around multiple hosts, scale the services, and deploy updates while letting the cluster scheduler handle the placement, supervision, and rolling updates. If you're ready to take your container infrastructure to the next level but are looking for a simple scheduler to deploy and manage then Nomad may be the container scheduler you've been waiting for.
+There are numerous options for container cluster schedulers and the list isn't getting shorter. Nomad's approach to keep things operationally simple with less infrastructure needs is a relief when some schedulers seem overly complex. This model allows for fast automation and lean system requirements. We've learned how we can leverage Nomad to distribute a task around multiple hosts, scale the services, and deploy updates while letting the cluster scheduler handle the placement, supervision, and rolling updates. If you're ready to take your container infrastructure to the next level but are looking for a simple scheduler to deploy and manage then Nomad may be the container scheduler you've been waiting for.
