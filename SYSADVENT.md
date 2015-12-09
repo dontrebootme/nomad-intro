@@ -102,7 +102,7 @@ update {
 
 `stagger` defines the time between new container deployments and `max_parallel` sets how many containers can be stopped and started in parallel.
 
-We can push a new version of our container out by changing the version of our microbot container imagine from `v1` to `v2` in the `microbot.nomad` file.
+We can push a new version of our container out by changing the version of our microbot container image from `v1` to `v2` in the `microbot.nomad` file.
 
 ```
 task "microbot" {
