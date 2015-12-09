@@ -8,6 +8,7 @@
   "log_level": "INFO",
   "client": {
     "enabled": true,
+    "network_interface": "eth1",
     "servers": [ "10.7.0.10:4647" ]
   }
 }
