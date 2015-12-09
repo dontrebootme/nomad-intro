@@ -115,6 +115,13 @@ task "microbot" {
 ```
 Once you push the new application with `nomad run /vagrant/microbot.nomad` the containers will be updated, 5 at a time with 10 seconds between each batch.
 
+By querying consul, we can find our running container information such as host and port. See the [Query Consul](#query) section below.
+
+Running microbot:v1
+![microbot:v1](img/microbotv1.png)
+Running microbot:v2
+![microbot:v2](img/microbotv2.png)
+
 More information about updates are available via the [Nomad documentation](https://nomadproject.io/docs/jobspec/#update)
 
 #### <a name="system"></a>System Jobs
@@ -132,18 +139,19 @@ nomad status cadvisor
 The cadvisor job should be scheduled, one per host, on your cluster.
 
 #### <a name="query"></a>Query Consul
-One of the features of Nomad is that is had native integration with Consul. We've covered the relationship of Nomad and Consul above, but we can take a look at Consul and verify that it is indeed receiving all the information about our services by using Consul data in two ways, via a straight API call, or via the web UI.
+One of the features of Nomad is that is had native integration with Consul. We've covered the relationship of Nomad and Consul above, but we can take a look at Consul and verify that it is indeed receiving all the information about our services by using Consul data in two ways, via an API call, or via the web UI.
 
 To ask Consul for all running services in our cluster:
 ```
 # List running services
-curl http://10.7.0.15:8500/v1/catalog/services
+curl -s http://10.7.0.15:8500/v1/catalog/services
 # List information about our microbot service
-curl http://10.7.0.15:8500/v1/catalog/service/microbot-web-microbot
+curl -s http://10.7.0.15:8500/v1/catalog/service/microbot-web-microbot
 ```
+![consul_catalog](img/consul_catalog.png)
 
 Or we can visit the web UI by browsing to http://10.7.0.15:8500/ui/
-![consul](consul.png)
+![consul](img/consul.png)
 
 ## Spin Down and Clean Up
 
