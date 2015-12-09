@@ -3,8 +3,10 @@ job "cadvisor" {
 
   datacenters = ["nomad-intro"]
 
+  type = "system"
+
   group "infra" {
-    count = 3
+    count = 1
 
     task "cadvisor" {
       driver = "docker"
