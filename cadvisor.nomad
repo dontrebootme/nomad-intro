@@ -1,22 +1,15 @@
-job "microbot" {
+job "cadvisor" {
   region = "global"
 
   datacenters = ["nomad-intro"]
 
-  # Rolling updates
-  update {
-    stagger = "10s"
-    max_parallel = 5
-  }
+  group "infra" {
+    count = 3
 
-  group "web" {
-    # We want 9 web servers initially
-    count = 9
-
-    task "microbot" {
+    task "cadvisor" {
       driver = "docker"
       config {
-        image = "dontrebootme/microbot:v1"
+        image = "google/cadvisor"
       }
       service {
         port = "http"

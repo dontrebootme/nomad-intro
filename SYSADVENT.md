@@ -51,7 +51,7 @@ vagrant ssh nomad
 nomad run /vagrant/microbot.nomad
 ```
 
-Nomad will recieve the job definition and act on that request by scheduling the tasks on the [agent nodes](#agents). You can view the status of the job using `nomad status microbot-service`.
+Nomad will recieve the job definition and act on that request by scheduling the tasks on the [agent nodes](#agents). You can view the status of the job using `nomad status microbot`.
 
 ### <a name="agents"></a>Nomad agent
 Nomad running in agent mode will receive requests for tasks from the server and, if possible, act on those requests. In the example above we asked nomad to start 50 instances of the microbot tasks which in this example are webservers running in a docker container as defined by the job definition. We asked nomad to allocate ports for the containers we launched and monitor the health of those services to act on them should the health check ever fail.
@@ -63,10 +63,82 @@ With nomad and consul in sync, we can automate other systems such as the load ba
 
 ### Further experimentation:
 Now that we've covered nomad server, agent, and how we can leverage consul for service discovery, let's do some further demonstrations of interacting with nomad for tasks such as:
-* Scale the microbot service
-* Update the service with an automated rolling upgrade
-* Deploy a container metrics collection tool using a nomad system jobs
-* Query consul microbot service status
+* [Scale the microbot service](#scale)
+* [Update the service with an automated rolling update](#update)
+* [Deploy a container metrics collection tool using a nomad system jobs](#system)
+* [Query consul microbot service status](#query)
+
+#### <a name="scale"></a>Scale the microbot service
+Lets demonstrate the ability to use Nomad to scale a service. Open the `microbot.nomad` file with your favorite text editor and change the `instance` value from `9` to `50`.
+```
+...
+group "webs" {
+  # We want 9 web servers initially
+  count = 50
+
+  # Create a web front end using a docker image
+  task "microbot" {
+    driver = "docker"
+...
+```
+Once you're done, lets tell nomad to about our changes by running:
+```
+vagrant ssh nomad
+nomad run /vagrant/microbot.nomad
+```
+
+#### <a name="update"></a>Rolling updates
+To demonstrate a rolling updates, lets look at our job file `microbot.nomad` once again.
+```
+...
+# Rolling updates should follow this policy
+update {
+  stagger = "10s"
+  max_parallel = 5
+}
+...
+```
+
+`stagger` defines the time between updates and `max_parallel` sets how many updates can be done in parallel.
+
+Let's bump the version of our microbot container from `v1` to `v2` by modifying the `microbot.nomad` file again.
+
+```
+task "microbot" {
+  driver = "docker"
+  config {
+    image = "dontrebootme/microbot:v2"
+  }
+  service {
+    port = "http"
+```
+
+More information about updates are available via the [Nomad documentation](https://nomadproject.io/docs/jobspec/#update)
+#### <a name="system"></a>Metrics container/System Jobs
+Nomad has three types of schedulers: service, batch and system. Our previous example used a `service` scheduler which is intended for long running jobs. Let's schedule a new task of `type = "system"`. If you take a look at `cadvisor.nomad`, you'll see an example of a system job. System jobs are great for deploying services/tools that you expect to be on every host. [cAdvisor](https://github.com/google/cadvisor) is a container metrics service. Let's deploy this on every nomad client/docker host by issuing our `nomad run` with this new job definition:
+```
+vagrant ssh nomad
+nomad run /vagrant/cadvisor.nomad
+```
+
+To verify that it is running on all hosts, lets run:
+```
+vagrant ssh nomad
+nomad status cadvisor
+```
+
+#### <a name="query"></a>Query Consul
+One of the features of Nomad is that is had native integration with Consul. We've covered the relationship of Nomad and Consul above, but we can take a look at consul and verify that it is indeed receiving all the information about our services by using consuming Consul data in two ways, via a straight API call, or via the web UI.
+
+To ask our consul for all running services in our cluster:
+```
+# List running services
+curl http://10.7.0.15:8500/v1/catalog/services
+# List information about our microbot service
+curl http://10.7.0.15:8500/v1/catalog/service/microbot-web-microbot
+```
+
+Or we can visit the web UI by browsing to http://10.7.0.15:8500/ui/
 
 ## Spin down and clean up
 
