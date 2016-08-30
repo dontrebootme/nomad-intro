@@ -3,6 +3,10 @@
 
 Vagrant.configure(2) do |config|
   config.vm.box = "cbednarski/ubuntu-1404"
+  config.vm.provision "fix-no-tty", type: "shell" do |s|
+    s.privileged = false
+    s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
+  end
 
   # Consul server. A significantly influenced by: https://github.com/trydb/tryconsul
   config.vm.define "consul" do |c1|
