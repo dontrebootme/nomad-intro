@@ -1,6 +1,10 @@
 {
-  "advertise_addr": "ADDR",
   "bind_addr": "0.0.0.0",
+  "advertise": {
+    "http": "ADDR",
+    "rpc": "ADDR:4647",
+    "serf": "ADDR:4648"
+  },
   "data_dir": "/var/lib/nomad",
   "datacenter": "nomad-intro",
   "enable_syslog": true,
@@ -9,6 +13,5 @@
   "client": {
     "enabled": true,
     "network_interface": "eth1",
-    "servers": [ "10.7.0.10:4647" ]
   }
 }
