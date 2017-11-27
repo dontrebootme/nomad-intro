@@ -1,12 +1,12 @@
 deps:
 	cd /vagrant/consul
-	wget -q -nc https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip
-	wget -q -nc https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_web_ui.zip
+	wget -q -nc https://releases.hashicorp.com/consul/0.8.4/consul_0.8.4_linux_amd64.zip
+	wget -q -nc https://releases.hashicorp.com/consul/0.8.4/consul_0.8.4_web_ui.zip
 	wget -q -nc https://github.com/cbednarski/hostess/releases/download/v0.1.0/hostess_linux_amd64
 	apt-get update -qq
 	apt-get install -y unzip
-	unzip -o consul_0.6.3_linux_amd64.zip
-	unzip -o consul_0.6.3_web_ui.zip -d dist
+	unzip -o consul_0.8.4_linux_amd64.zip
+	unzip -o consul_0.8.4_web_ui.zip -d dist
 
 install:
 	cd /vagrant/consul
